@@ -61,37 +61,40 @@ Statix can handle these two problems. It allows you to :
 Your assets are defined in a Manager. Here is an example of configuration :
 
 ```go
-import "www.sarulabs.com/gogs/mliogier/statix/alteration"
-import "www.sarulabs.com/gogs/mliogier/statix/resource"
+import (
+    "github.com/sarulabs/statix"
+    "github.com/sarulabs/statix/alteration"
+    "github.com/sarulabs/statix/resource"
+)
 
-manager := Manager{
-    Server: Server{
+manager := statix.Manager{
+    Server: statix.Server{
         // link a directory to a base URL
         Directory: "/output/directory",
         URL:       "http://example.com/static",
     },
-    Filters: []Filter{
+    Filters: []statix.Filter{
         {
             // applies uglifyjs (a javascript minifier) to every .js asset
             Alteration: alteration.NewUglifyJs("/usr/local/bin/uglifyjs"),
-            Pattern:    NewExtensionPattern("js"),
+            Pattern:    statix.NewExtensionPattern("js"),
         },
     },
     // asset definitions, the key of the map is the name of the asset.
     // an asset can be a SingleAsset (1 output file)
     // or an AssetPack (export all the files from a directory to another)
-    Assets: map[string]Asset{
+    Assets: map[string]statix.Asset{
         // exports .png files from /input/directory/img to /output/directory/img
         // and applies optipng to all files before writing them
-        "images": AssetPack{
+        "images": statix.AssetPack{
             Input:   "/input/directory/img",
             Output:  "/output/directory/img",
-            Pattern: NewExtensionPattern("png"),
+            Pattern: statix.NewExtensionPattern("png"),
             Alteration: alteration.NewOptiPng("/usr/bin/optipng", 100),
         },
         // creates an app.js file that contains jquery
         // and a typescript file (app.ts) complied in javascript
-        "app-js": SingleAsset{
+        "app-js": statix.SingleAsset{
             Output: "/output/directory/app.js",
             Input: resource.NewCollection(
                 resource.NewFile("/input/directory/js/jquery.js"),
@@ -167,8 +170,8 @@ However there is a link between the path of a static file and its URL. That is w
 In case you serve your assets in only one directory, the configuration will look like this :
 
 ```go
-Manager{
-    Server: Server{
+statix.Manager{
+    Server: statix.Server{
         Directory: "/output/directory",
         URL:       "http://example.com/static",
     },
@@ -181,8 +184,8 @@ The URL of `/output/directory/img/header/logo.{MD5}.png` is `http://example.com/
 You are not restricted to one server. You can define as many servers as you need :
 
 ```go
-Manager{
-    Servers: []Server{
+statix.Manager{
+    Servers: []statix.Server{
         {
             Directory: "/output/directory-1",
             URL:       "http://static1.example.com",
@@ -280,13 +283,13 @@ This is the directory where your raw assets are located.
 `Pattern` is just a wrapper on top of regular expressions. It will allow you to omit some files in the input directory. To only export files ending with `.ext` can for example use this pattern :
 
 ```go
-NewPattern("\\\.ext$")
+statix.NewPattern("\\\.ext$")
 ```
 
 As filtering files from their extensions is a frequent use case, you may want to use the `NewExtensionPattern` function.
 
 ```go
-NewExtensionPattern("png", "jpg") // will filter .png and .jpg files
+statix.NewExtensionPattern("png", "jpg") // will filter .png and .jpg files
 ```
 
 #### Alterations
@@ -294,11 +297,11 @@ NewExtensionPattern("png", "jpg") // will filter .png and .jpg files
 You can apply a list of alterations to all the assets in the AssetPack :
 
 ```go
-AssetPack{
+statix.AssetPack{
     Input:   "/input",
     Output:  "/output",
-    Pattern: NewExtensionPattern("png"),
-    Alterations: []Alteration{
+    Pattern: statix.NewExtensionPattern("png"),
+    Alterations: []statix.Alteration{
         alteration.OptiPng("/usr/bin/optipng", 100),
     }
 }
@@ -313,11 +316,11 @@ Filters allow you to apply some alterations to all your assets. A Filter is comp
 In this example, `uglifyjs` is executed on every `.js` files :
 
 ```go
-Manager{
-    Filters: []Filter{
+statix.Manager{
+    Filters: []statix.Filter{
         {
             Alteration: alteration.NewUglifyJs("/usr/local/bin/uglifyjs"),
-            Pattern:    NewExtensionPattern("js"),
+            Pattern:    statix.NewExtensionPattern("js"),
         },
     },
     // ...
@@ -334,20 +337,20 @@ Manager.Input defines the root of all relative input paths. Identically Manager.
 This example is the same as the first one but with relative asset paths. Server directory is also relative because in this case an empty string equals `.`.
 
 ```go
-Manager{
+statix.Manager{
     Input:  "/input/directory",
     Output: "/output/directory",
-    Server: Server{
+    Server: statix.Server{
         // Directory: "/output/directory"
         Url: "http://example.com/static",
     },
-    Assets: map[string]Asset{
-        "imgs": AssetPack{
+    Assets: map[string]statix.Asset{
+        "imgs": statix.AssetPack{
             Input:   "img", // /input/directory/img
             Output:  "img", // /output/directory/img
-            Pattern: NewExtensionPattern("jpg", "png"),
+            Pattern: statix.NewExtensionPattern("jpg", "png"),
         },
-        "app-js": SingleAsset{
+        "app-js": statix.SingleAsset{
             Output: "app.js", // /output/directory/app.js
             Input: asset.NewCollection(
                 asset.NewFile("js/jquery.js"), // /input/directory/js/jquery.js
