@@ -1,3 +1,6 @@
+:warning: **NOT MAINTAINED** :warning:
+
+
 # Statix
 
 [![Build Status](https://travis-ci.org/sarulabs/statix.svg?branch=master)](https://travis-ci.org/sarulabs/statix)
