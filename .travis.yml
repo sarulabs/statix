@@ -1,8 +1,21 @@
 language: go
 
 go:
-  - 1.3
   - tip
+
+env:
+  global:
+    - CC_TEST_REPORTER_ID=b632c9335ef514773a338f5e854e2f3d87d7704ffb92a773d7c0e0c1e2ff9c84
 
 install:
   - go get github.com/stretchr/testify
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script: go test -coverprofile=c.out -v ./...
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT

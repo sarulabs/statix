@@ -1,14 +1,14 @@
-:warning: **NOT MAINTAINED** :warning:
-
-
 # Statix
 
+![unmaintained](https://img.shields.io/badge/status-UNMAINTAINED-red.svg)
 [![Build Status](https://travis-ci.org/sarulabs/statix.svg?branch=master)](https://travis-ci.org/sarulabs/statix)
 [![GoDoc](https://godoc.org/github.com/sarulabs/statix?status.svg)](http://godoc.org/github.com/sarulabs/statix)
-[![Coverage](http://gocover.io/_badge/github.com/sarulabs/statix)](https://gocover.io/github.com/sarulabs/statix)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/488828df9c559b10ecad/test_coverage)](https://codeclimate.com/github/sarulabs/statix/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/488828df9c559b10ecad/maintainability)](https://codeclimate.com/github/sarulabs/statix/maintainability)
 [![codebeat](https://codebeat.co//badges/0f6455a1-8dde-4da6-aed0-de545bf8f458)](https://codebeat.co/projects/github-com-sarulabs-statix)
 [![goreport](https://goreportcard.com/badge/github.com/sarulabs/statix)](https://goreportcard.com/report/github.com/sarulabs/statix)
 
+---
 
 Statix is an asset manager written in go.
 
