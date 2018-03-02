@@ -74,7 +74,7 @@ func (m Manager) Dump() error {
 // If an error occurs, an empty string is returned.
 //
 // If the asset is a SingleAsset, the name is enought to get its url.
-// For exemple manager.Url("single") works.
+// For example manager.Url("single") works.
 //
 // But if the asset is an AssetPack, you also need to give its path inside the output directory.
 // For example, manager.Url("pack", "/js/jquery.js") will look into the output directory
